@@ -1,28 +1,27 @@
 import os
-import pandas as pd
 
 # parametry jméno_souboru, jméno_nového_souboru, -r (reverse) otočení od posledního řádku k prvnímu
 
-origin_file = "ČEZ2020_test1.csv"
-# origin_file = "ČEZ_prices_test.csv"
-new_file = "ČEZ_prices_test_x.csv"
-
+FILE_TYPE = ".csv"
 local_path = os.getcwd() + os.sep
-# print(local_path)
 
-read_file = open(local_path + origin_file, "r")
-new_file = open(local_path + new_file, "w")
+origin_file = "ČEZ2020_test1"
+new_file = origin_file + "_ok"
 
-new_file_head = read_file.readline()
+read_file = open(local_path + origin_file + FILE_TYPE, "r")
+new_file = open(local_path + new_file + FILE_TYPE, "w")
+
+new_file_head = read_file.readline().replace(";", ",")
 new_file.write(new_file_head)
 
 lines = reversed(read_file.readlines())
 
 for line in lines:
-    line.strip().replace(";", ",")
+    line = line.replace(";", ",")
     new_file.write(line)
 
 read_file.close()
 new_file.close()
 
+print("csv file clearing complete")
 # print(os.path.isfile(local_path))

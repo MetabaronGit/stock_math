@@ -1,6 +1,5 @@
 import datetime
 
-
 def day_name_cz(day_name_en: str) -> str:
     """
     Přeloží název dne z angličtiny do češtiny.
@@ -32,7 +31,7 @@ def MA(period, data):
 
 # všechny hodnoty brány z PSE
 
-def read_values(ticker: str, *values) -> list:
+def read_values(ticker: str, *values) -> dict:
     """
     Načtení hodnot z obchodování ze souboru CSV
 
@@ -43,18 +42,31 @@ def read_values(ticker: str, *values) -> list:
     # ToDo: podle data načtení dnešních a včerejších hodnot ze souboru csv
     # ToDo: pokud datum nenajde, hláška, že data nejsou
     # ToDo: najde soubor podle tickeru
+
     today = datetime.datetime.now()
     today_date = today.strftime("%d.%m.%Y")
 
     with open(f"{ticker}_data.csv", "r") as file:
         previous_line = ""
+        today_dict = dict()
+        yesterday_dict = dict()
         for line in file:
+            if line[0].isalpha():
+                # list názvů dat
+                header = line.rstrip('\n').split(",")[1:]
             if line[:10] == today_date:
-                result = line.split(",") + previous_line.split(",")
-            else:
-                result = []
+                today_list = line.rstrip('\n').split(",")
+                yesterday_list = previous_line.rstrip('\n').split(",")
+                for i, item in enumerate(today_list[1:]):
+                    today_dict[header[i]] = item
+                for i, item in enumerate(yesterday_list[1:]):
+                    yesterday_dict[header[i]] = item
             previous_line = line
+        result = {"header": header, today_list[0]: today_dict, str(yesterday_list[0]): yesterday_dict}
     return result
+
+
+
 
 def fibonaci(min: float, max: float) -> list:
     """
@@ -101,14 +113,20 @@ def RSI_14(value_yesterday: float, value_today: float) -> str:
 
 def prediction():
     x = datetime.datetime.now()
-    today_date = x.strftime("%d.%m.%Y")  # anglický název dne
-    print("-" * 50)
-    print(f"Dnešní datum: {today_date}, {day_name_cz(x.strftime('%A'))}".center(50))
-    print("-" * 50)
+    today_date = x.strftime("%d.%m.%Y")
+    x = x - datetime.timedelta(days=1)
+    yesterday_date = x.strftime("%d.%m.%Y")
 
-    print(read_values("BAACEZ"))
+    dataset = read_values("BAACEZ")
+    tab_width = len(str(dataset["header"]))
 
-    print(f"RSI:", RSI_14(71.38, 70.99))
+    print("-" * tab_width)
+    print(f"Dnešní datum: {today_date}, {day_name_cz(x.strftime('%A'))}".center(tab_width))
+    print("-" * tab_width)
+
+    print(f"RSI:", RSI_14(float(dataset[yesterday_date]["RSI_14"]), float(dataset[today_date]["RSI_14"])))
+
+
     # print(f"fib:", fibonaci(535, 545))
 
 

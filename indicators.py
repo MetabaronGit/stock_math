@@ -1,5 +1,7 @@
 import datetime
 
+TICKERS = ("BAACEZ", "BABKOFOL")
+
 def day_name_cz(day_name_en: str) -> str:
     """
     Přeloží název dne z angličtiny do češtiny.
@@ -42,7 +44,7 @@ def read_values(ticker: str, *values) -> dict:
     # ToDo: podle data načtení dnešních a včerejších hodnot ze souboru csv
     # ToDo: pokud datum nenajde, hláška, že data nejsou
     # ToDo: najde soubor podle tickeru
-
+    # otočit hledání data od konce
     today = datetime.datetime.now()
     today_date = today.strftime("%d.%m.%Y")
 
@@ -63,6 +65,7 @@ def read_values(ticker: str, *values) -> dict:
                     yesterday_dict[header[i]] = item
             previous_line = line
         result = {"header": header, today_list[0]: today_dict, str(yesterday_list[0]): yesterday_dict}
+    #     exception (date not in file)
     return result
 
 
@@ -93,20 +96,20 @@ def RSI_14(value_yesterday: float, value_today: float) -> str:
     """
     Relative Strength Index, period 14, 30/70
     """
-    HIGH_LEVEL = 70
-    LOW_LEVEL = 30
+    HIGH_LEVEL = 75
+    LOW_LEVEL = 25
     result = "neutral"
     if value_yesterday <= 50 and value_today > 50:
-        result = "BUY signal "
+        result = "BUY signal (50+)"
     elif value_yesterday >= 50 and value_today < 50:
-        result = "SELL signal "
-    elif value_today > HIGH_LEVEL and value_yesterday < value_today:
+        result = "SELL signal (50-)"
+    elif value_yesterday < value_today and value_today > HIGH_LEVEL:
         result = "neutral - trend will turn down "
-    elif value_today > HIGH_LEVEL and value_yesterday >= value_today:
+    elif value_yesterday >= value_today and value_today > HIGH_LEVEL:
         result = "SELL signal - trend will turn down "
-    elif value_today < LOW_LEVEL and value_yesterday > value_today:
+    elif value_yesterday > value_today and value_today < LOW_LEVEL:
         result = "neutral - trend will turn up "
-    elif value_today < LOW_LEVEL and value_yesterday <= value_today:
+    elif value_yesterday <= value_today and value_today < LOW_LEVEL:
         result = "BUY signal - trend will turn up "
     return result
 
@@ -117,13 +120,16 @@ def prediction():
     x = x - datetime.timedelta(days=1)
     yesterday_date = x.strftime("%d.%m.%Y")
 
-    dataset = read_values("BAACEZ")
+    # ToDo: cyklus pro všechny tickery
+    ticker = TICKERS[0]
+
+    dataset = read_values(ticker)
     tab_width = len(str(dataset["header"]))
 
     print("-" * tab_width)
     print(f"Dnešní datum: {today_date}, {day_name_cz(x.strftime('%A'))}".center(tab_width))
     print("-" * tab_width)
-
+    print("ticker:", ticker)
     print(f"RSI:", RSI_14(float(dataset[yesterday_date]["RSI_14"]), float(dataset[today_date]["RSI_14"])))
 
 

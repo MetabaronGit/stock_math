@@ -1,3 +1,27 @@
+import datetime
+
+TICKERS = ("BAACEZ", "BABKOFOL")
+
+def day_name_cz(day_name_en: str) -> str:
+    """
+    Přeloží název dne z angličtiny do češtiny.
+
+    :param day_name_en: jméno dne v angličtině
+    :return: jméno dne v češtině
+    """
+    days = {"sunday": "neděle",
+            "monday": "pondělí",
+            "tuesday": "úterý",
+            "wednesday": "středa",
+            "thursday": "čtvrtek",
+            "friday": "pátek",
+            "saturday": "sobota"}
+    if day_name_en.lower() in days:
+        return days[day_name_en.lower()]
+    else:
+        return day_name_en
+
+
 def MA(period, data):
     return sum(data[:period]) / len(data[:period])
 
@@ -7,14 +31,45 @@ def MA(period, data):
 # exit strategy -> stoploss cca 55 %
 # target profit ->
 
-def write_values(ticker: str, *values) -> None:
+# všechny hodnoty brány z PSE
+
+def read_values(ticker: str, *values) -> dict:
     """
-    Uložení hodnot z obchodování do souboru
+    Načtení hodnot z obchodování ze souboru CSV
 
     :param ticker: Kód akcie
     :param values: hodnoty z obchodování po zavření trhu
+    :return: list s hodnotami za daný den a den předtím
     """
-    pass
+    # ToDo: podle data načtení dnešních a včerejších hodnot ze souboru csv
+    # ToDo: pokud datum nenajde, hláška, že data nejsou
+    # ToDo: najde soubor podle tickeru
+    # otočit hledání data od konce
+    today = datetime.datetime.now()
+    today_date = today.strftime("%d.%m.%Y")
+
+    with open(f"{ticker}_data.csv", "r") as file:
+        previous_line = ""
+        today_dict = dict()
+        yesterday_dict = dict()
+        for line in file:
+            if line[0].isalpha():
+                # list názvů dat
+                header = line.rstrip('\n').split(",")[1:]
+            if line[:10] == today_date:
+                today_list = line.rstrip('\n').split(",")
+                yesterday_list = previous_line.rstrip('\n').split(",")
+                for i, item in enumerate(today_list[1:]):
+                    today_dict[header[i]] = item
+                for i, item in enumerate(yesterday_list[1:]):
+                    yesterday_dict[header[i]] = item
+            previous_line = line
+        result = {"header": header, today_list[0]: today_dict, str(yesterday_list[0]): yesterday_dict}
+    #     exception (date not in file)
+    return result
+
+
+
 
 def fibonaci(min: float, max: float) -> list:
     """
@@ -39,34 +94,46 @@ def fibonaci(min: float, max: float) -> list:
 
 def RSI_14(value_yesterday: float, value_today: float) -> str:
     """
-    perioda 14, 30/70
+    Relative Strength Index, period 14, 30/70
     """
+    HIGH_LEVEL = 75
+    LOW_LEVEL = 25
     result = "neutral"
     if value_yesterday <= 50 and value_today > 50:
-        result = "BUY signal "
+        result = "BUY signal (50+)"
     elif value_yesterday >= 50 and value_today < 50:
-        result = "SELL signal "
-    elif value_today > 70:
-        result = "trend will turn down "
-    elif value_today < 30:
-        result = "trend will turn up "
+        result = "SELL signal (50-)"
+    elif value_yesterday < value_today and value_today > HIGH_LEVEL:
+        result = "neutral - trend will turn down "
+    elif value_yesterday >= value_today and value_today > HIGH_LEVEL:
+        result = "SELL signal - trend will turn down "
+    elif value_yesterday > value_today and value_today < LOW_LEVEL:
+        result = "neutral - trend will turn up "
+    elif value_yesterday <= value_today and value_today < LOW_LEVEL:
+        result = "BUY signal - trend will turn up "
     return result
 
-# všechny hodnoty brány z PSE
 
-# 16.3.21, BAACEZ, close=537,
-# RSI_14=68.86 %
-# BB, top=543, mid=527, low=512
+def prediction():
+    x = datetime.datetime.now()
+    today_date = x.strftime("%d.%m.%Y")
+    x = x - datetime.timedelta(days=1)
+    yesterday_date = x.strftime("%d.%m.%Y")
 
-# 17.3.21, BAACEZ, close=541, min=538, max=544, obj_tis=129,04, RMS, min=535, max=545, close=543
-# RSI_14=71.38 %
-# BB, top=545, mid=527, low=510
+    # ToDo: cyklus pro všechny tickery
+    ticker = TICKERS[0]
+
+    dataset = read_values(ticker)
+    tab_width = len(str(dataset["header"]))
+
+    print("-" * tab_width)
+    print(f"Dnešní datum: {today_date}, {day_name_cz(x.strftime('%A'))}".center(tab_width))
+    print("-" * tab_width)
+    print("ticker:", ticker)
+    print(f"RSI:", RSI_14(float(dataset[yesterday_date]["RSI_14"]), float(dataset[today_date]["RSI_14"])))
 
 
-print(f"fib:", fibonaci(535, 545))
-# close price
-# stock name
+    # print(f"fib:", fibonaci(535, 545))
 
 
-print(f"RSI:", RSI_14(68.86, 71.38))
-
+prediction()

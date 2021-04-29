@@ -33,7 +33,7 @@ ohlc = pd.read_csv("HistoricalData.csv", index_col="Date", parse_dates=True)
 
 # Now we need to make this ohlc comply to standards.
 # Column names:
-ohlc.columns
+# ohlc.columns
 
 # We need lowercase column names:
 ohlc.columns = ['close', 'volume', 'open', 'high', 'low']
@@ -56,7 +56,7 @@ ohlc["open"] = ohlc["open"].apply(split)
 # TA
 # Jump right into it to see how easy it is.
 
-TA.RSI(ohlc).tail(10)
+print(TA.RSI(ohlc).tail(4))
 
 # Date
 # 2014-12-26    55.099394

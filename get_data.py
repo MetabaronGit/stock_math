@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as BS
+import datetime
 import sys
 
 URL = "https://www.penize.cz/burza-cennych-papiru-praha/"
@@ -33,6 +34,47 @@ def get_soup(url: str) -> BS:
     return soup
 
 
+def get_data(soup: BS) -> dict:
+    table = soup.find("div", class_="sortingTable", style="overflow-x: auto;")
+
+    lines = table.find_all("tr")
+
+    actual_web_table_header = []
+    for name in lines[0]:
+        actual_web_table_header.append(name.text)
+
+    if check_table_header(actual_web_table_header):
+        print("table header check: OK")
+    else:
+        print("table header check: ERROR!")
+        exit()
+
+    result = dict()
+    for line in lines:
+        values = line.find_all("td")
+
+        column = 0
+        for value in values:
+            if column == 0:
+                date = str(value.text)
+            elif column == 2:
+                volume = int(value.text.replace("\xa0", ""))
+            elif column == 4:
+                open = float(value.text.replace(",", "."))
+            elif column == 5:
+                low = float(value.text.replace(",", "."))
+            elif column == 6:
+                high = float(value.text.replace(",", "."))
+            elif column == 7:
+                close = float(value.text.replace(",", "."))
+
+            column += 1
+            if column > 7:
+                column = 0
+                result[date] = {"volume": volume, "open": open, "low": low, "high": high, "close": close}
+    return result
+
+
 def check_table_header(header: list) -> bool:
     """
     Ověří seřazení sloupců a jejich počet. Pokud je vše OK vrací True.
@@ -63,44 +105,16 @@ def main():
         # ToDo: logování chyb
         exit()
 
-    table = soup.find("div", class_="sortingTable", style="overflow-x: auto;")
+    data_table = get_data(soup)
 
-    lines = table.find_all("tr")
+    today = datetime.datetime.now()
+    # today_date = today.strftime("%d.%m.%Y")
 
-    actual_web_table_header = []
-    for name in lines[0]:
-        actual_web_table_header.append(name.text)
+    x = today - datetime.timedelta(days=1)
+    yesterday_date = x.strftime("%d.%m.%Y")
 
-    if check_table_header(actual_web_table_header):
-        print("table header check: OK")
-    else:
-        print("table header check: ERROR!")
-        exit()
-
-    # for line in lines:
-    #     values = line.find_all("td")
-    #
-    #     column = 0
-    #     for value in values:
-    #         if column == 0:
-    #             print("date:", value.text)
-    #         elif column == 2:
-    #             print("volume:", value.text)
-    #         elif column == 4:
-    #             print("open:", value.text)
-    #         elif column == 5:
-    #             print("low:", value.text)
-    #         elif column == 6:
-    #             print("high:", value.text)
-    #         elif column == 7:
-    #             print("close:", value.text)
-    #
-    #         column += 1
-    #         if column > 7:
-    #             column = 0
-
-
-    # print(f"{ticker}", soup)
+    print("yesterday date:", yesterday_date)
+    print("data:", data_table.get(yesterday_date))
 
 
 if __name__ == "__main__":

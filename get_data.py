@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as BS
 import datetime
+import csv
 import sys
 
 URL = "https://www.penize.cz/burza-cennych-papiru-praha/"
@@ -27,6 +28,8 @@ TICKER = dict(BAAAVAST="334228-avast",
               BABKOFOL="326261-kofola-cs",
               BAAPEN="334226-photon-energy")
 
+LOG_BOOK = []
+
 
 def get_soup(url: str) -> BS:
     content = requests.get(url)
@@ -44,9 +47,10 @@ def get_data(soup: BS) -> dict:
         actual_web_table_header.append(name.text)
 
     if check_table_header(actual_web_table_header):
-        print("table header check: OK")
+        LOG_BOOK.append("table header check: OK")
     else:
-        print("table header check: ERROR!")
+        LOG_BOOK.append("table header check: ERROR!")
+        print_log()
         exit()
 
     result = dict()
@@ -85,8 +89,21 @@ def check_table_header(header: list) -> bool:
     return header == WEB_TABLE_HEADER
 
 
-def save_data_to_csv():
-    pass
+def print_log():
+    print(LOG_BOOK)
+
+
+def save_data_to_csv(file_name: str, header: list, data: list) -> None:
+    """Zapíše získané údaje do souboru csv"""
+    try:
+        with open(file_name, "w", newline="", encoding='utf-8') as f:
+            f_writer = csv.writer(f)
+            f_writer.writerow(header)
+            f_writer.writerows(data)
+        print(f"Soubor {file_name} byl vytvořen.")
+    except Exception:
+        print(f"Chyba při vytváření souboru {file_name}.")
+        exit()
 
 
 def get_data_from_csv():
@@ -94,28 +111,32 @@ def get_data_from_csv():
 
 
 def main():
+    today = datetime.datetime.now()
+    today_date = today.strftime("%d.%m.%Y")
+    x = today - datetime.timedelta(days=1)
+    yesterday_date = x.strftime("%d.%m.%Y")
+
+    LOG_BOOK.append(f"spuštění dne: {today_date}")
     try:
         # ticker = sys.argv[1]
         ticker = "BAACEZ"
+        LOG_BOOK.append(f"ticker: {ticker}")
         url = URL + TICKER[ticker]
-        print(url)
+        LOG_BOOK.append(f"url: {url}")
         soup = get_soup(url)
-    except Exception:
-        print("Špatně zadaný ticker.")
-        # ToDo: logování chyb
+        LOG_BOOK.append(f"get_soup: OK")
+    except Exception as e:
+        LOG_BOOK.append(f"chyba: {e}")
+        print_log()
         exit()
 
     data_table = get_data(soup)
-
-    today = datetime.datetime.now()
-    # today_date = today.strftime("%d.%m.%Y")
-
-    x = today - datetime.timedelta(days=1)
-    yesterday_date = x.strftime("%d.%m.%Y")
+    LOG_BOOK.append("data_table: OK")
 
     print("yesterday date:", yesterday_date)
     print("data:", data_table.get(yesterday_date))
 
+    print_log()
 
 if __name__ == "__main__":
     main()

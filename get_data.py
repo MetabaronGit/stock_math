@@ -5,6 +5,7 @@ import csv
 import sys
 
 URL = "https://www.penize.cz/burza-cennych-papiru-praha/"
+URL_PARAMS = "{ticker}?quoteitemid={quoteitemid}&marketid={marketid}&month={month}&year={year}#historyTable"
 
 WEB_TABLE_HEADER = ['Datum',
                     'Změna',
@@ -16,7 +17,7 @@ WEB_TABLE_HEADER = ['Datum',
                     'Zavírací kurz v Kč']
 
 TICKER = dict(BAAAVAST="334228-avast",
-              BAACEZ="6143-cez",
+              BAACEZ=dict(ticker="6143-cez", quoteitemid="6143", marketid="44427"),
               BAACZGCE="334231-czg",
               BAAERBAG="6122-erste-bank",
               BAAGECBA="326262-moneta-money-bank",
@@ -100,9 +101,10 @@ def save_data_to_csv(file_name: str, header: list, data: list) -> None:
             f_writer = csv.writer(f)
             f_writer.writerow(header)
             f_writer.writerows(data)
-        print(f"Soubor {file_name} byl vytvořen.")
-    except Exception:
-        print(f"Chyba při vytváření souboru {file_name}.")
+        LOG_BOOK.append(f"Soubor {file_name} byl vytvořen.")
+    except Exception as e:
+        LOG_BOOK.append(f"Chyba při vytváření souboru {file_name}.")
+        print_log()
         exit()
 
 
@@ -121,8 +123,10 @@ def main():
         # ticker = sys.argv[1]
         ticker = "BAACEZ"
         LOG_BOOK.append(f"ticker: {ticker}")
-        url = URL + TICKER[ticker]
+        url = URL + URL_PARAMS.format(ticker=TICKER[ticker]["ticker"], quoteitemid=TICKER[ticker]["quoteitemid"], marketid=TICKER[ticker]["marketid"], month="4", year="2021")
         LOG_BOOK.append(f"url: {url}")
+        print(url)
+        exit()
         soup = get_soup(url)
         LOG_BOOK.append(f"get_soup: OK")
     except Exception as e:
@@ -135,8 +139,10 @@ def main():
 
     print("yesterday date:", yesterday_date)
     print("data:", data_table.get(yesterday_date))
+    print(data_table.get("30.4.2021"))
 
     print_log()
+
 
 if __name__ == "__main__":
     main()

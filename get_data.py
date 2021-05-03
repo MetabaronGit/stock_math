@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup as BS
 import datetime
 import csv
+import time
 import sys
 
 URL = "https://www.penize.cz/burza-cennych-papiru-praha/"
@@ -111,35 +112,56 @@ def save_data_to_csv(file_name: str, header: list, data: list) -> None:
 def get_data_from_csv():
     pass
 
+def create_url(ticker: str, month: int, year: int) -> str:
+    """Sestaví url dle zadaných parametrů."""
+    url = URL + URL_PARAMS.format(ticker=TICKER[ticker]["ticker"],
+                                  quoteitemid=TICKER[ticker]["quoteitemid"],
+                                  marketid=TICKER[ticker]["marketid"],
+                                  month=month,
+                                  year=year)
+    return url
 
 def main():
     today = datetime.datetime.now()
     today_date = today.strftime("%d.%m.%Y")
-    x = today - datetime.timedelta(days=1)
-    yesterday_date = x.strftime("%d.%m.%Y")
+    yesterday_date = (today - datetime.timedelta(days=1)).strftime("%d.%m.%Y")
+    actual_month = int(today.strftime("%m"))
+    actual_year = int(today.strftime("%Y"))
+    previous_month = int((today - datetime.timedelta(days=30)).strftime("%m"))
+    previous_year = int((today - datetime.timedelta(days=30)).strftime("%Y"))
+    # print(previous_month, previous_year)
+    # print(actual_month, actual_year)
 
     LOG_BOOK.append(f"spuštění dne: {today_date}")
     try:
         # ticker = sys.argv[1]
         ticker = "BAACEZ"
         LOG_BOOK.append(f"ticker: {ticker}")
-        url = URL + URL_PARAMS.format(ticker=TICKER[ticker]["ticker"], quoteitemid=TICKER[ticker]["quoteitemid"], marketid=TICKER[ticker]["marketid"], month="4", year="2021")
-        LOG_BOOK.append(f"url: {url}")
-        print(url)
-        exit()
+        url = create_url(ticker, actual_month, actual_year)
+        LOG_BOOK.append(f"actual_month url: {url}")
         soup = get_soup(url)
-        LOG_BOOK.append(f"get_soup: OK")
+        LOG_BOOK.append(f"get_soup from actual_month url: OK")
+        actual_month_data_table = get_data(soup)
+        LOG_BOOK.append("actual_month_data_table: OK")
+
+        if len(actual_month_data_table) < 14:
+            url = create_url(ticker, previous_month, previous_year)
+            LOG_BOOK.append(f"previous_month url: {url}")
+            time.sleep(2)
+            soup = get_soup(url)
+            LOG_BOOK.append(f"get_soup from actual_month url: OK")
+            previous_month_data_table = get_data(soup)
+            LOG_BOOK.append("previous_month_data_table: OK")
+            print("počet zápisů:", len(previous_month_data_table))
+
     except Exception as e:
         LOG_BOOK.append(f"chyba: {e}")
         print_log()
         exit()
 
-    data_table = get_data(soup)
-    LOG_BOOK.append("data_table: OK")
-
     print("yesterday date:", yesterday_date)
-    print("data:", data_table.get(yesterday_date))
-    print(data_table.get("30.4.2021"))
+    print("data:", actual_month_data_table.get(yesterday_date))
+    print(previous_month_data_table.get("30.04.2021"))
 
     print_log()
 

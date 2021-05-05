@@ -16,11 +16,14 @@ WEB_TABLE_HEADER = ['Datum',
                     'Min. kurz v Kč',
                     'Max. kurz v Kč',
                     'Zavírací kurz v Kč']
-
+# https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=5&year=2021#historyTable
 TICKER = dict(BAAAVAST="334228-avast",
               BAACEZ=dict(ticker="6143-cez", quoteitemid="6143", marketid="44427"),
+# https://www.penize.cz/burza-cennych-papiru-praha/334231-czg?quoteitemid=334231&marketid=44427&month=5&year=2021#historyTable
               BAACZGCE="334231-czg",
+# https://www.penize.cz/burza-cennych-papiru-praha/6122-erste-bank?quoteitemid=6122&marketid=44427&month=5&year=2021#historyTable
               BAAERBAG="6122-erste-bank",
+# https://www.penize.cz/burza-cennych-papiru-praha/326262-moneta-money-bank?quoteitemid=326262&marketid=44427&month=5&year=2021#historyTable
               BAAGECBA="326262-moneta-money-bank",
               BAAKOMB="6103-komercni-banka",
               BAASTOCK="334227-stock",
@@ -94,9 +97,16 @@ def check_table_header(header: list) -> bool:
 def print_log():
     print(LOG_BOOK)
 
+    with open("logs/log.txt", "a", encoding='utf-8') as f:
+        for line in LOG_BOOK:
+            f.write(line + "\n")
+        f.write("-" * 20 + "\n")
 
-def save_data_to_csv(file_name: str, header: list, data: list) -> None:
-    """Zapíše získané údaje do souboru csv"""
+
+def save_data_to_csv(file_name: str, data: list) -> None:
+    """Zapíše získané údaje do souboru csv.
+    """
+    header = ["date", "close", "volume", "open", "high", "low"]
     try:
         with open(file_name, "w", newline="", encoding='utf-8') as f:
             f_writer = csv.writer(f)
@@ -105,12 +115,20 @@ def save_data_to_csv(file_name: str, header: list, data: list) -> None:
         LOG_BOOK.append(f"Soubor {file_name} byl vytvořen.")
     except Exception as e:
         LOG_BOOK.append(f"Chyba při vytváření souboru {file_name}.")
-        print_log()
-        exit()
 
 
-def get_data_from_csv():
-    pass
+def get_data_from_csv(file: str) -> dict:
+    """Zapíše získané údaje ze souboru csv do slovníku.
+       hlavička csv je: date,close,volume,open,high,low
+    """
+    result = dict()
+    with open(file, "r") as f:
+        f_reader = csv.reader(f)
+        next(f_reader)
+        for line in f_reader:
+            result[line[0]] = {"close": line[1], "volume": line[2], "open": line[3], "high": line[4], "low": line[5]}
+    return result
+
 
 def create_url(ticker: str, month: int, year: int) -> str:
     """Sestaví url dle zadaných parametrů."""
@@ -121,7 +139,12 @@ def create_url(ticker: str, month: int, year: int) -> str:
                                   year=year)
     return url
 
+
 def main():
+    actual_month_data_table = dict()
+    previous_month_data_table = dict()
+    csv_data_table = dict()
+    final_data_table = dict()
 
     today = datetime.datetime.now()
     today_date = today.strftime("%d.%m.%Y")
@@ -139,13 +162,17 @@ def main():
         ticker = "BAACEZ"
         LOG_BOOK.append(f"ticker: {ticker}")
 
+        """
+        # načtení dat z csv souboru
         if os.path.isfile(f"data/{ticker}.csv"):
             LOG_BOOK.append(f"file data/{ticker}.csv exists: check")
+            csv_data_table = get_data_from_csv(f"data/{ticker}.csv")
+            LOG_BOOK.append(f"get data from csv file: check")
         else:
             LOG_BOOK.append(f"file data/{ticker}.csv doesn't exists.")
-        print_log()
-        exit()
+        """
 
+        # načtení dat z webu (aktuální měsíc)
         url = create_url(ticker, actual_month, actual_year)
         LOG_BOOK.append(f"actual_month url: {url}")
         soup = get_soup(url)
@@ -153,24 +180,56 @@ def main():
         actual_month_data_table = get_data(soup)
         LOG_BOOK.append("actual_month_data_table: OK")
 
-        if len(actual_month_data_table) < 14:
-            url = create_url(ticker, previous_month, previous_year)
-            LOG_BOOK.append(f"previous_month url: {url}")
-            time.sleep(2)
-            soup = get_soup(url)
-            LOG_BOOK.append(f"get_soup from actual_month url: OK")
-            previous_month_data_table = get_data(soup)
-            LOG_BOOK.append("previous_month_data_table: OK")
-            print("počet zápisů:", len(previous_month_data_table))
+        # if len(actual_month_data_table) < 14:
+        # načtení dat z webu (předchozí měsíc)
+        url = create_url(ticker, previous_month, previous_year)
+        LOG_BOOK.append(f"previous_month url: {url}")
+        time.sleep(2)
+        soup = get_soup(url)
+        LOG_BOOK.append(f"get_soup from actual_month url: OK")
+        previous_month_data_table = get_data(soup)
+        LOG_BOOK.append("previous_month_data_table: OK")
+        # print("počet zápisů:", len(previous_month_data_table))
+
+        # sestavení finální datové struktury (list) od nejstaršího data (opačně než na webu)
+        # header = ["date", "close", "volume", "open", "high", "low"]
+        # previous_month_data_table.update(actual_month_data_table)
+        final_data_table = dict(sorted(previous_month_data_table.items()))
+        previous_month_data_table = dict(sorted(previous_month_data_table.items()))
+        actual_month_data_table = dict(sorted(actual_month_data_table.items()))
+
+        final_list = []
+        for key in previous_month_data_table:
+            line_list = []
+            line_list.append(str(key))
+            line_list.append(previous_month_data_table[key]["close"])
+            line_list.append(previous_month_data_table[key]["volume"])
+            line_list.append(previous_month_data_table[key]["open"])
+            line_list.append(previous_month_data_table[key]["high"])
+            line_list.append(previous_month_data_table[key]["low"])
+            final_list.append(line_list)
+
+        for key in actual_month_data_table:
+            line_list = []
+            line_list.append(str(key))
+            line_list.append(actual_month_data_table[key]["close"])
+            line_list.append(actual_month_data_table[key]["volume"])
+            line_list.append(actual_month_data_table[key]["open"])
+            line_list.append(actual_month_data_table[key]["high"])
+            line_list.append(actual_month_data_table[key]["low"])
+            final_list.append(line_list)
+
+        # uložení dat do csv souboru
+        save_data_to_csv(f"data/{ticker}.csv", final_list)
+        LOG_BOOK.append(f"csv file saved: check")
 
     except Exception as e:
         LOG_BOOK.append(f"chyba: {e}")
         print_log()
         exit()
 
-    print("yesterday date:", yesterday_date)
-    print("data:", actual_month_data_table.get(yesterday_date))
-    print(previous_month_data_table.get("30.04.2021"))
+    # print("data:", actual_month_data_table.get(yesterday_date))
+    # print(previous_month_data_table.get("30.04.2021"))
 
     print_log()
 

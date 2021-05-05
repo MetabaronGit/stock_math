@@ -1,0 +1,12 @@
+spuštění dne: 05.05.2021
+ticker: BAACEZ
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAACEZ.csv byl vytvořen.
+csv file saved: check

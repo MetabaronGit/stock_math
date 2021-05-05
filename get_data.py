@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup as BS
 import datetime
 import csv
 import time
-import sys
+import os
 
 URL = "https://www.penize.cz/burza-cennych-papiru-praha/"
 URL_PARAMS = "{ticker}?quoteitemid={quoteitemid}&marketid={marketid}&month={month}&year={year}#historyTable"
@@ -122,6 +122,7 @@ def create_url(ticker: str, month: int, year: int) -> str:
     return url
 
 def main():
+
     today = datetime.datetime.now()
     today_date = today.strftime("%d.%m.%Y")
     yesterday_date = (today - datetime.timedelta(days=1)).strftime("%d.%m.%Y")
@@ -137,6 +138,14 @@ def main():
         # ticker = sys.argv[1]
         ticker = "BAACEZ"
         LOG_BOOK.append(f"ticker: {ticker}")
+
+        if os.path.isfile(f"data/{ticker}.csv"):
+            LOG_BOOK.append(f"file data/{ticker}.csv exists: check")
+        else:
+            LOG_BOOK.append(f"file data/{ticker}.csv doesn't exists.")
+        print_log()
+        exit()
+
         url = create_url(ticker, actual_month, actual_year)
         LOG_BOOK.append(f"actual_month url: {url}")
         soup = get_soup(url)

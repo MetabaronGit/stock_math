@@ -29,7 +29,8 @@ import pandas as pd
 # TA.SMA(ohlc, 42)
 
 # Load the .csv:
-ohlc = pd.read_csv("HistoricalData.csv", index_col="Date", parse_dates=True)
+# ohlc = pd.read_csv("HistoricalData.csv", index_col="Date", parse_dates=True)
+ohlc = pd.read_csv("data/BAACEZ.csv", index_col="date", parse_dates=True)
 
 # Now we need to make this ohlc comply to standards.
 # Column names:
@@ -42,15 +43,16 @@ ohlc.columns = ['close', 'volume', 'open', 'high', 'low']
 # As you can see some of the values in the DataFrame have a "$" prefix.
 # Let's see if we can remove that. You may notice that values have "$" prefix, we must remove that before continuing.
 # This small function bellow will do that for us.
-def split(dollar: str) -> float:
-    return float(dollar.split("$")[1])
 
-
-# Now apply it to each column:
-ohlc["close"] = ohlc["close"].apply(split)
-ohlc["low"] = ohlc["low"].apply(split)
-ohlc["high"] = ohlc["high"].apply(split)
-ohlc["open"] = ohlc["open"].apply(split)
+# def split(dollar: str) -> float:
+#     return float(dollar.split("$")[1])
+#
+#
+# # Now apply it to each column:
+# ohlc["close"] = ohlc["close"].apply(split)
+# ohlc["low"] = ohlc["low"].apply(split)
+# ohlc["high"] = ohlc["high"].apply(split)
+# ohlc["open"] = ohlc["open"].apply(split)
 
 
 # TA

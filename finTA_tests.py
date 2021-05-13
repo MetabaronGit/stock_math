@@ -1,6 +1,11 @@
 from finta import TA
 import pandas as pd
 
+text = "192 995 ks116\xa0211\xa0481,50\xa0Kč".replace("\xa0", "").replace(" ", "")
+minmax = "592,00\xa0Kč605,50\xa0Kč"
+new = text.split("ks")
+print(new)
+exit()
 # odkazy:
 # historická data ČEZ
 # https://www.pse.cz/detail/CZ0005112300?tab=detail-history

@@ -17,30 +17,19 @@ WEB_TABLE_HEADER = ['Datum',
                     'Min. kurz v Kč',
                     'Max. kurz v Kč',
                     'Zavírací kurz v Kč']
-# https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=5&year=2021#historyTable
+
 TICKER = dict(BAAAVAST=dict(ticker="334228-avast", quoteitemid="334228", marketid="44427"),
               BAACEZ=dict(ticker="6143-cez", quoteitemid="6143", marketid="44427"),
-# https://www.penize.cz/burza-cennych-papiru-praha/334231-czg?quoteitemid=334231&marketid=44427&month=5&year=2021#historyTable
               BAACZGCE=dict(ticker="334231-czg", quoteitemid="334231", marketid="44427"),
-# https://www.penize.cz/burza-cennych-papiru-praha/6122-erste-bank?quoteitemid=6122&marketid=44427&month=5&year=2021#historyTable
-              BAAERBAG="6122-erste-bank",
-# https://www.penize.cz/burza-cennych-papiru-praha/326262-moneta-money-bank?quoteitemid=326262&marketid=44427&month=5&year=2021#historyTable
-              BAAGECBA="326262-moneta-money-bank",
-# https://www.penize.cz/burza-cennych-papiru-praha/6103-komercni-banka?quoteitemid=6103&marketid=44427&month=5&year=2021#historyTable
-              BAAKOMB="6103-komercni-banka",
-# https://www.penize.cz/burza-cennych-papiru-praha/334227-stock?quoteitemid=334227&marketid=44427&month=5&year=2021#historyTable
-              BAASTOCK="334227-stock",
-# https://www.penize.cz/burza-cennych-papiru-praha/6150-philip-morris-cr?quoteitemid=6150&marketid=44427&month=5&year=2021#historyTable
-              BAATABAK="6150-philip-morris-cr",
-# https://www.penize.cz/burza-cennych-papiru-praha/6141-o2-c-r?quoteitemid=6141&marketid=44427&month=5&year=2021#historyTable
-              BAATELEC="6141-o2-c-r",
-# https://www.penize.cz/burza-cennych-papiru-praha/42198-vig?quoteitemid=42198&marketid=44427&month=5&year=2021#historyTable
-              BAAVIG="42198-vig",
-# https://www.penize.cz/burza-cennych-papiru-praha/326261-kofola-cs?quoteitemid=326261&marketid=44427&month=5&year=2021#historyTable
-              BABKOFOL="326261-kofola-cs",
-# https://www.penize.cz/burza-cennych-papiru-praha/334226-photon-energy?quoteitemid=334226&marketid=44427&month=5&year=2021#historyTable
-              BAAPEN="334226-photon-energy")
-
+              BAAERBAG=dict(ticker="6122-erste-bank", quoteitemid="6122", marketid="44427"),
+              BAAGECBA=dict(ticker="326262-moneta-money-bank", quoteitemid="326262", marketid="44427"),
+              BAAKOMB=dict(ticker="6103-komercni-banka", quoteitemid="6103", marketid="44427"),
+              BAASTOCK=dict(ticker="334227-stock", quoteitemid="334227", marketid="44427"),
+              BAATABAK=dict(ticker="6150-philip-morris-cr", quoteitemid="6150", marketid="44427"),
+              BAATELEC=dict(ticker="6141-o2-c-r", quoteitemid="6141", marketid="44427"),
+              BAAVIG=dict(ticker="42198-vig", quoteitemid="42198", marketid="44427"),
+              BABKOFOL=dict(ticker="326261-kofola-cs", quoteitemid="326261", marketid="44427"),
+              BAAPEN=dict(ticker="334226-photon-energy", quoteitemid="334226", marketid="44427"))
 
 LOG_BOOK = []
 
@@ -126,6 +115,21 @@ def save_data_to_csv(file_name: str, data: list) -> None:
         LOG_BOOK.append(f"Chyba při vytváření souboru {file_name}.")
 
 
+def save_current_day_data_to_csv(data: list) -> None:
+    """Zapíše získané údaje do souboru csv.
+    """
+    file_name = "temp.csv"
+    header = ["ticker", "close", "volume", "open", "high", "low", "barometer"]
+    try:
+        with open(f"data/{file_name}", "w", newline="", encoding='utf-8') as f:
+            f_writer = csv.writer(f)
+            f_writer.writerow(header)
+            f_writer.writerows(data)
+        LOG_BOOK.append(f"Soubor {file_name} byl vytvořen.")
+    except Exception as e:
+        LOG_BOOK.append(f"Chyba při vytváření souboru {file_name}.")
+
+
 def get_data_from_csv(file: str) -> dict:
     """Zapíše získané údaje ze souboru csv do slovníku.
        hlavička csv je: date,close,volume,open,high,low
@@ -149,10 +153,73 @@ def create_url(ticker: str, month: int, year: int) -> str:
     return url
 
 
-def get_last_day_data(soup: BS):
-    table = soup.find("div", class_="sortingTable", style="overflow-x: auto;")
-
+def get_last_day_data(soup: BS) -> dict:
+    result = dict()
+    ticker = dict(ČEZ="BAACEZ")
+    table = soup.find("tbody")
     lines = table.find_all("tr")
+    for line in lines:
+        values = line.find_all("td")
+        column = 0
+        for value in values:
+            if column == 0:
+                ticker = value.find("a").text
+            if column == 1:
+                barometer = int(value.find("span").text.replace("-", "0"))
+            if column == 2:
+                close = value.text.replace("\xa0", "").replace(",", ".").replace("Kč", "").replace("-", "0")
+            if column == 4:
+                open = value.text.replace("\xa0", "").replace(",", ".").replace("Kč", "").replace("-", "0")
+            if column == 5:
+                low_high_list = value.text.replace("\xa0", "").replace(",", ".").replace("-", "0").split("Kč")
+                low = float(low_high_list[0])
+                if len(low_high_list) > 1:
+                    high = float(low_high_list[1])
+                else:
+                    high = 0.0
+            if column == 6:
+                volume_list = value.text.replace("\xa0", "").replace(" ", "").replace("-", "0").split("ks")
+                volume = int(volume_list[0])
+
+            column += 1
+            if column > 7:
+                column = 0
+                result[ticker] = {"volume": volume, "open": open, "low": low,
+                                  "high": high, "close": close, "barometer": barometer}
+    return result
+
+
+def get_current_day_data() -> list:
+    pse_tickers = dict(BAACEZ="ČEZ", BAACZGCE="CZG", BAAERBAG="ERSTE GROUP BANK",
+                       BABKOFOL="KOFOLA ČS", BAAKOMB="KOMERČNÍ BANKA", BAAGECBA="MONETA MONEY BANK",
+                       BAATELEC="O2 C.R.", BAAVIG="VIG", BAATABAK="PHILIP MORRIS ČR", BAAPEN="PHOTON ENERGY",
+                       BAAAVAST="AVAST", BAASTOCK="STOCK")
+
+    url_list = ["https://www.pse.cz/udaje-o-trhu/akcie/prime-market",
+                "https://www.pse.cz/udaje-o-trhu/akcie/standard-market",
+                "https://www.pse.cz/udaje-o-trhu/akcie/free-market"]
+
+    final_list = []
+    for url in url_list:
+        soup = get_soup(url)
+        LOG_BOOK.append(f"get_soup from url {url}: OK")
+        time.sleep(2)
+        last_day_data = get_last_day_data(soup)
+
+        for key in last_day_data:
+            if key in pse_tickers.values():
+                line_list = []
+                line_list.append(list(pse_tickers.keys())[list(pse_tickers.values()).index(key)])
+                # line_list.append(str(key))
+                line_list.append(last_day_data[key]["close"])
+                line_list.append(last_day_data[key]["volume"])
+                line_list.append(last_day_data[key]["open"])
+                line_list.append(last_day_data[key]["high"])
+                line_list.append(last_day_data[key]["low"])
+                line_list.append(last_day_data[key]["barometer"])
+                final_list.append(line_list)
+
+    return final_list
 
 
 def main():
@@ -163,6 +230,7 @@ def main():
 
     today = datetime.datetime.now()
     today_date = today.strftime("%d.%m.%Y")
+    current_time = today.strftime("%H:%M:%S")
     yesterday_date = (today - datetime.timedelta(days=1)).strftime("%d.%m.%Y")
     actual_month = int(today.strftime("%m"))
     actual_year = int(today.strftime("%Y"))
@@ -171,7 +239,7 @@ def main():
     # print(previous_month, previous_year)
     # print(actual_month, actual_year)
 
-    LOG_BOOK.append(f"spuštění dne: {today_date}")
+    LOG_BOOK.append(f"spuštění dne: {today_date}, v čase: {current_time}")
     try:
         # ToDo: parametry pro shell
         # -all DATE -> uloží kompletní historii od data DATE do nového souboru, pokud soubor existuje
@@ -184,9 +252,9 @@ def main():
 
         # -2m -> vytvoří csv z posledních 2 měsíců od aktuálního data
 
-        parameter = sys.argv[1].lower()
+        # parameter = sys.argv[1].lower()
         # ticker = sys.argv[2].upper()
-        ticker = "BAAAVAST"
+        ticker = "BAACEZ"
         parameter = "-l"
         LOG_BOOK.append(f"parameter: {parameter}, ticker: {ticker}")
 
@@ -200,19 +268,24 @@ def main():
             LOG_BOOK.append(f"file data/{ticker}.csv doesn't exists.")
         """
 
-        # aktuální denní kurz (po 18:00)
-        # https://www.pse.cz/udaje-o-trhu/akcie/prime-market
-        # ČEZ, CZG, Erste, Kofola, KB, Moneta, O2, VIG
-        # (BAACEZ, BAACZGCE, BAAERBAG, BABKOFOL, BAAKOMB, BAAGECBA, BAATELEC, BAAVIG)
-        # https://www.pse.cz/udaje-o-trhu/akcie/standard-market
-        # Philip Morris, Photon Energy
-        # (BAATABAK, BAAPEN)
-        # https://www.pse.cz/udaje-o-trhu/akcie/free-market
-        # Avast, Stock
-        # (BAAAVAST, BAASTOCK)
-        # barometr trhu ?
-
         if parameter == "-l":
+            # (last) stáhne data pouze z aktuálního dne, až po uzavření burzy
+            temp_file = "data/temp.txt"
+            if os.path.isfile(temp_file):
+                # kontrola data souboru temp.txt
+                t = datetime.datetime.fromtimestamp(os.path.getctime(temp_file))
+                temp_file_creation_date = t.strftime("%d.%m.%Y")
+                if temp_file_creation_date == today_date:
+                    print("temp file is actual:", temp_file_creation_date)
+                else:
+                    print("temp file is out of date")
+            else:
+                with open(temp_file, "w") as f:
+                    f.write("pokus")
+                    print("created")
+
+
+
             if ticker in ("BAACEZ", "BAACZGCE", "BAAERBAG", "BABKOFOL", "BAAKOMB", "BAAGECBA", "BAATELEC", "BAAVIG"):
                 url = "https://www.pse.cz/udaje-o-trhu/akcie/prime-market"
             elif ticker in ("BAATABAK", "BAAPEN"):
@@ -220,15 +293,20 @@ def main():
             elif ticker in ("BAAAVAST", "BAASTOCK"):
                 url = "https://www.pse.cz/udaje-o-trhu/akcie/free-market"
             else:
-                LOG_BOOK.append(f"unknown ticker, no url")
+                LOG_BOOK.append("unknown ticker, no url selected, exit")
                 exit()
 
-            soup = get_soup(url)
-            LOG_BOOK.append(f"get_soup from url {url}: OK")
-            last_day_data = get_last_day_data(soup)
+            if current_time < "18:00":
+                LOG_BOOK.append("bad starting time (limit > 18:00), exit")
+                print_log()
+                exit()
+
+            final_list = get_current_day_data()
+
+            save_current_day_data_to_csv(final_list)
 
         elif parameter == "-2m":
-            # načtení dat z webu (aktuální měsíc)
+            # (2 months) načtení dat z webu (aktuální měsíc + předchozí)
             url = create_url(ticker, actual_month, actual_year)
             LOG_BOOK.append(f"actual_month url: {url}")
             soup = get_soup(url)
@@ -293,3 +371,6 @@ def main():
 if __name__ == "__main__":
     main()
 
+# https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=5&year=2021#historyTable
+# https://www.penize.cz/burza-cennych-papiru-praha/334231-czg?quoteitemid=334231&marketid=44427&month=5&year=2021#historyTable
+# https://www.penize.cz/burza-cennych-papiru-praha/6122-erste-bank?quoteitemid=6122&marketid=44427&month=5&year=2021#historyTable

@@ -98,7 +98,7 @@ def print_log():
     with open("logs/log.txt", "a", encoding='utf-8') as f:
         for line in LOG_BOOK:
             f.write(line + "\n")
-        f.write("-" * 50 + "\n")
+        f.write("-" * 80 + "\n")
 
 
 def save_data_to_csv(file_name: str, data: list) -> None:
@@ -115,19 +115,20 @@ def save_data_to_csv(file_name: str, data: list) -> None:
         LOG_BOOK.append(f"Chyba při vytváření souboru {file_name}.")
 
 
-def save_current_day_data_to_csv(data: list) -> None:
+def save_current_day_data_to_csv(file: str, data: list) -> None:
     """Zapíše získané údaje do souboru csv.
     """
-    file_name = "temp.csv"
     header = ["ticker", "close", "volume", "open", "high", "low", "barometer"]
     try:
-        with open(f"data/{file_name}", "w", newline="", encoding='utf-8') as f:
+        if os.path.exists(file):
+            os.remove(file)
+        with open(file, "w", newline="", encoding='utf-8') as f:
             f_writer = csv.writer(f)
             f_writer.writerow(header)
             f_writer.writerows(data)
-        LOG_BOOK.append(f"Soubor {file_name} byl vytvořen.")
+        LOG_BOOK.append(f"Soubor {file} byl vytvořen.")
     except Exception as e:
-        LOG_BOOK.append(f"Chyba při vytváření souboru {file_name}.")
+        LOG_BOOK.append(f"Chyba při vytváření souboru {file}.")
 
 
 def get_data_from_csv(file: str) -> dict:
@@ -209,6 +210,7 @@ def get_current_day_data() -> list:
         for key in last_day_data:
             if key in pse_tickers.values():
                 line_list = []
+                # najití klíče podle hodnoty ve slovníku
                 line_list.append(list(pse_tickers.keys())[list(pse_tickers.values()).index(key)])
                 # line_list.append(str(key))
                 line_list.append(last_day_data[key]["close"])
@@ -252,10 +254,12 @@ def main():
 
         # -2m -> vytvoří csv z posledních 2 měsíců od aktuálního data
 
+
         # parameter = sys.argv[1].lower()
         # ticker = sys.argv[2].upper()
-        ticker = "BAACEZ"
-        parameter = "-l"
+        ticker = "BAAAVAST"
+        parameter = "-all"
+        date_from = "01.01.2020"
         LOG_BOOK.append(f"parameter: {parameter}, ticker: {ticker}")
 
         """
@@ -269,41 +273,33 @@ def main():
         """
 
         if parameter == "-l":
+            # ToDo: kontrola data vytvoření / datum poslední změny
             # (last) stáhne data pouze z aktuálního dne, až po uzavření burzy
-            temp_file = "data/temp.txt"
-            if os.path.isfile(temp_file):
-                # kontrola data souboru temp.txt
-                t = datetime.datetime.fromtimestamp(os.path.getctime(temp_file))
-                temp_file_creation_date = t.strftime("%d.%m.%Y")
-                if temp_file_creation_date == today_date:
-                    print("temp file is actual:", temp_file_creation_date)
+            # vytvoří temp file s daty z aktuálního dne
+            temp_file = "data/temp.csv"
+
+            if current_time > "18:00":
+                LOG_BOOK.append("starting time: OK")
+
+                if os.path.isfile(temp_file):
+                    # kontrola data souboru temp_file
+                    t = datetime.datetime.fromtimestamp(os.path.getctime(temp_file))
+                    temp_file_creation_date = t.strftime("%d.%m.%Y")
+                    if temp_file_creation_date == today_date:
+                        print("temp file is actual:", temp_file_creation_date)
+                        LOG_BOOK.append(f"temp file is actual: {temp_file_creation_date}")
+                    else:
+                        print("temp file is out of date")
+                        LOG_BOOK.append(f"temp file is out of date: {temp_file_creation_date}")
+                        final_list = get_current_day_data()
+                        save_current_day_data_to_csv(temp_file, final_list)
                 else:
-                    print("temp file is out of date")
+                    print("creating temp file...")
+                    final_list = get_current_day_data()
+                    save_current_day_data_to_csv(temp_file, final_list)
+
             else:
-                with open(temp_file, "w") as f:
-                    f.write("pokus")
-                    print("created")
-
-
-
-            if ticker in ("BAACEZ", "BAACZGCE", "BAAERBAG", "BABKOFOL", "BAAKOMB", "BAAGECBA", "BAATELEC", "BAAVIG"):
-                url = "https://www.pse.cz/udaje-o-trhu/akcie/prime-market"
-            elif ticker in ("BAATABAK", "BAAPEN"):
-                url = "https://www.pse.cz/udaje-o-trhu/akcie/standard-market"
-            elif ticker in ("BAAAVAST", "BAASTOCK"):
-                url = "https://www.pse.cz/udaje-o-trhu/akcie/free-market"
-            else:
-                LOG_BOOK.append("unknown ticker, no url selected, exit")
-                exit()
-
-            if current_time < "18:00":
-                LOG_BOOK.append("bad starting time (limit > 18:00), exit")
-                print_log()
-                exit()
-
-            final_list = get_current_day_data()
-
-            save_current_day_data_to_csv(final_list)
+                LOG_BOOK.append("bad starting time (current_time < 18:00), temp file not created")
 
         elif parameter == "-2m":
             # (2 months) načtení dat z webu (aktuální měsíc + předchozí)

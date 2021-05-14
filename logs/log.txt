@@ -115,3 +115,79 @@ get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
 get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
 Soubor temp.csv byl vytvořen.
 --------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 20:45:00
+parameter: -l, ticker: BAACEZ
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor temp.csv byl vytvořen.
+--------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:08:50
+parameter: -l, ticker: BAACEZ
+starting time: OK
+temp file is out of date: 13.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor temp.csv byl vytvořen.
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:10:40
+parameter: -l, ticker: BAACEZ
+starting time: OK
+temp file is out of date: 13.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor temp.csv byl vytvořen.
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:12:29
+parameter: -l, ticker: BAACEZ
+starting time: OK
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:15:28
+parameter: -l, ticker: BAACEZ
+starting time: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor temp.csv byl vytvořen.
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:16:39
+parameter: -l, ticker: BAACEZ
+starting time: OK
+temp file is actual: 14.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:24:55
+parameter: -l, ticker: BAACEZ
+starting time: OK
+temp file is actual: 14.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:25:56
+parameter: -2m, ticker: BAACEZ
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAACEZ.csv byl vytvořen.
+csv file saved: check
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:26:56
+parameter: -2m, ticker: BAAAVAST
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAAVAST.csv byl vytvořen.
+csv file saved: check
+--------------------------------------------------------------------------------
+spuštění dne: 14.05.2021, v čase: 21:49:20
+parameter: -all, ticker: BAAAVAST
+--------------------------------------------------------------------------------

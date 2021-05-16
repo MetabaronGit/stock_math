@@ -191,3 +191,374 @@ csv file saved: check
 spuštění dne: 14.05.2021, v čase: 21:49:20
 parameter: -all, ticker: BAAAVAST
 --------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 18:31:25
+parameter: -t, ticker: BAAAVAST
+starting time: OK
+temp file is out of date: 14.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 18:52:04
+parameter: -t, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 14.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 18:56:56
+parameter: -t, ticker: BAAAVAST
+creating temp file starting time: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 18:57:28
+parameter: -t, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 19:03:49
+parameter: -t, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 19:08:18
+parameter: -t, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 19:16:26
+parameter: -t, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 19:19:53
+parameter: -a, ticker: BAAAVAST
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 19:20:52
+parameter: -a, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 19:22:01
+parameter: -a, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 20:06:12
+parameter: -a, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 20:23:04
+parameter: -2m, ticker: BABKOFOL
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/326261-kofola-cs?quoteitemid=326261&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/326261-kofola-cs?quoteitemid=326261&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BABKOFOL.csv byl vytvořen.
+data/BABKOFOL file saved: OK
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:47:12
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 14.05.2021
+added new line to data/BABKOFOL.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:47:43
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 16.05.2021
+chyba: local variable 'new_line' referenced before assignment
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:48:21
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 15.05.2021
+added new line to data/BABKOFOL.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:49:33
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 16.05.2021
+chyba: local variable 'new_line' referenced before assignment
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:49:55
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 14.05.2021
+added new line to data/BABKOFOL.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:50:10
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 15.05.2021
+added new line to data/BABKOFOL.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:53:05
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 14.05.2021
+added new line to data/BABKOFOL.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:53:30
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 15.05.2021
+added new line to data/BABKOFOL.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 21:55:06
+parameter: -a, ticker: BABKOFOL
+creating temp file starting time: OK
+temp file is actual: 16.05.2021
+last row date in file data/BABKOFOL.csv: 16.05.2021
+last line in data/BABKOFOL.csv file is actual
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 22:02:05
+parameter: -all2m, ticker: BABKOFOL
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAAVAST.csv byl vytvořen.
+data/BAAAVAST file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAACEZ.csv byl vytvořen.
+data/BAACEZ file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334231-czg?quoteitemid=334231&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334231-czg?quoteitemid=334231&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAACZGCE.csv byl vytvořen.
+data/BAACZGCE file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6122-erste-bank?quoteitemid=6122&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6122-erste-bank?quoteitemid=6122&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAERBAG.csv byl vytvořen.
+data/BAAERBAG file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/326262-moneta-money-bank?quoteitemid=326262&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/326262-moneta-money-bank?quoteitemid=326262&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAGECBA.csv byl vytvořen.
+data/BAAGECBA file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6103-komercni-banka?quoteitemid=6103&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6103-komercni-banka?quoteitemid=6103&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAKOMB.csv byl vytvořen.
+data/BAAKOMB file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334227-stock?quoteitemid=334227&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334227-stock?quoteitemid=334227&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAASTOCK.csv byl vytvořen.
+data/BAASTOCK file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6150-philip-morris-cr?quoteitemid=6150&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+chyba: could not convert string to float: '14\xa0780.00'
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 22:06:36
+parameter: -2m, ticker: BAATABAK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6150-philip-morris-cr?quoteitemid=6150&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+chyba: could not convert string to float: '14\xa0780.00'
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 22:10:12
+parameter: -2m, ticker: BAATABAK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6150-philip-morris-cr?quoteitemid=6150&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6150-philip-morris-cr?quoteitemid=6150&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAATABAK.csv byl vytvořen.
+data/BAATABAK file saved: OK
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 22:11:09
+parameter: -all2m, ticker: BAATABAK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334228-avast?quoteitemid=334228&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAAVAST.csv byl vytvořen.
+data/BAAAVAST file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6143-cez?quoteitemid=6143&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAACEZ.csv byl vytvořen.
+data/BAACEZ file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334231-czg?quoteitemid=334231&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334231-czg?quoteitemid=334231&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAACZGCE.csv byl vytvořen.
+data/BAACZGCE file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6122-erste-bank?quoteitemid=6122&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6122-erste-bank?quoteitemid=6122&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAERBAG.csv byl vytvořen.
+data/BAAERBAG file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/326262-moneta-money-bank?quoteitemid=326262&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/326262-moneta-money-bank?quoteitemid=326262&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAGECBA.csv byl vytvořen.
+data/BAAGECBA file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6103-komercni-banka?quoteitemid=6103&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6103-komercni-banka?quoteitemid=6103&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAKOMB.csv byl vytvořen.
+data/BAAKOMB file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334227-stock?quoteitemid=334227&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334227-stock?quoteitemid=334227&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAASTOCK.csv byl vytvořen.
+data/BAASTOCK file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6150-philip-morris-cr?quoteitemid=6150&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6150-philip-morris-cr?quoteitemid=6150&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAATABAK.csv byl vytvořen.
+data/BAATABAK file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/6141-o2-c-r?quoteitemid=6141&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/6141-o2-c-r?quoteitemid=6141&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAATELEC.csv byl vytvořen.
+data/BAATELEC file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/42198-vig?quoteitemid=42198&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/42198-vig?quoteitemid=42198&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAVIG.csv byl vytvořen.
+data/BAAVIG file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/326261-kofola-cs?quoteitemid=326261&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/326261-kofola-cs?quoteitemid=326261&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BABKOFOL.csv byl vytvořen.
+data/BABKOFOL file saved: OK
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334226-photon-energy?quoteitemid=334226&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334226-photon-energy?quoteitemid=334226&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+chyba: could not convert string to float: '-'
+--------------------------------------------------------------------------------
+spuštění dne: 16.05.2021, v čase: 22:30:28
+parameter: -2m, ticker: BAAPEN
+actual_month url: https://www.penize.cz/burza-cennych-papiru-praha/334226-photon-energy?quoteitemid=334226&marketid=44427&month=5&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+actual_month_data_table: OK
+previous_month url: https://www.penize.cz/burza-cennych-papiru-praha/334226-photon-energy?quoteitemid=334226&marketid=44427&month=4&year=2021#historyTable
+get_soup from actual_month url: OK
+table header check: OK
+previous_month_data_table: OK
+Soubor data/BAAPEN.csv byl vytvořen.
+data/BAAPEN file saved: OK
+--------------------------------------------------------------------------------

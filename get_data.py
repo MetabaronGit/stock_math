@@ -8,6 +8,7 @@ import sys
 
 URL = "https://www.penize.cz/burza-cennych-papiru-praha/"
 URL_PARAMS = "{ticker}?quoteitemid={quoteitemid}&marketid={marketid}&month={month}&year={year}#historyTable"
+TEMP_FILE = "data/temp.csv"
 
 WEB_TABLE_HEADER = ['Datum',
                     'Změna',
@@ -18,18 +19,18 @@ WEB_TABLE_HEADER = ['Datum',
                     'Max. kurz v Kč',
                     'Zavírací kurz v Kč']
 
-TICKER = dict(BAAAVAST=dict(ticker="334228-avast", quoteitemid="334228", marketid="44427"),
-              BAACEZ=dict(ticker="6143-cez", quoteitemid="6143", marketid="44427"),
-              BAACZGCE=dict(ticker="334231-czg", quoteitemid="334231", marketid="44427"),
-              BAAERBAG=dict(ticker="6122-erste-bank", quoteitemid="6122", marketid="44427"),
-              BAAGECBA=dict(ticker="326262-moneta-money-bank", quoteitemid="326262", marketid="44427"),
-              BAAKOMB=dict(ticker="6103-komercni-banka", quoteitemid="6103", marketid="44427"),
-              BAASTOCK=dict(ticker="334227-stock", quoteitemid="334227", marketid="44427"),
-              BAATABAK=dict(ticker="6150-philip-morris-cr", quoteitemid="6150", marketid="44427"),
-              BAATELEC=dict(ticker="6141-o2-c-r", quoteitemid="6141", marketid="44427"),
-              BAAVIG=dict(ticker="42198-vig", quoteitemid="42198", marketid="44427"),
-              BABKOFOL=dict(ticker="326261-kofola-cs", quoteitemid="326261", marketid="44427"),
-              BAAPEN=dict(ticker="334226-photon-energy", quoteitemid="334226", marketid="44427"))
+TICKERS = dict(BAAAVAST=dict(ticker="334228-avast", quoteitemid="334228", marketid="44427"),
+               BAACEZ=dict(ticker="6143-cez", quoteitemid="6143", marketid="44427"),
+               BAACZGCE=dict(ticker="334231-czg", quoteitemid="334231", marketid="44427"),
+               BAAERBAG=dict(ticker="6122-erste-bank", quoteitemid="6122", marketid="44427"),
+               BAAGECBA=dict(ticker="326262-moneta-money-bank", quoteitemid="326262", marketid="44427"),
+               BAAKOMB=dict(ticker="6103-komercni-banka", quoteitemid="6103", marketid="44427"),
+               BAASTOCK=dict(ticker="334227-stock", quoteitemid="334227", marketid="44427"),
+               BAATABAK=dict(ticker="6150-philip-morris-cr", quoteitemid="6150", marketid="44427"),
+               BAATELEC=dict(ticker="6141-o2-c-r", quoteitemid="6141", marketid="44427"),
+               BAAVIG=dict(ticker="42198-vig", quoteitemid="42198", marketid="44427"),
+               BABKOFOL=dict(ticker="326261-kofola-cs", quoteitemid="326261", marketid="44427"),
+               BAAPEN=dict(ticker="334226-photon-energy", quoteitemid="334226", marketid="44427"))
 
 LOG_BOOK = []
 
@@ -65,15 +66,15 @@ def get_data(soup: BS) -> dict:
             if column == 0:
                 date = str(value.text)
             elif column == 2:
-                volume = int(value.text.replace("\xa0", ""))
+                volume = int(value.text.replace("\xa0", "").replace("-", "0"))
             elif column == 4:
-                open = float(value.text.replace(",", "."))
+                open = float(value.text.replace("\xa0", "").replace(",", ".").replace("-", "0"))
             elif column == 5:
-                low = float(value.text.replace(",", "."))
+                low = float(value.text.replace("\xa0", "").replace(",", ".").replace("-", "0"))
             elif column == 6:
-                high = float(value.text.replace(",", "."))
+                high = float(value.text.replace("\xa0", "").replace(",", ".").replace("-", "0"))
             elif column == 7:
-                close = float(value.text.replace(",", "."))
+                close = float(value.text.replace("\xa0", "").replace(",", ".").replace("-", "0"))
 
             column += 1
             if column > 7:
@@ -120,8 +121,6 @@ def save_current_day_data_to_csv(file: str, data: list) -> None:
     """
     header = ["ticker", "close", "volume", "open", "high", "low", "barometer"]
     try:
-        if os.path.exists(file):
-            os.remove(file)
         with open(file, "w", newline="", encoding='utf-8') as f:
             f_writer = csv.writer(f)
             f_writer.writerow(header)
@@ -146,9 +145,9 @@ def get_data_from_csv(file: str) -> dict:
 
 def create_url(ticker: str, month: int, year: int) -> str:
     """Sestaví url dle zadaných parametrů."""
-    url = URL + URL_PARAMS.format(ticker=TICKER[ticker]["ticker"],
-                                  quoteitemid=TICKER[ticker]["quoteitemid"],
-                                  marketid=TICKER[ticker]["marketid"],
+    url = URL + URL_PARAMS.format(ticker=TICKERS[ticker]["ticker"],
+                                  quoteitemid=TICKERS[ticker]["quoteitemid"],
+                                  marketid=TICKERS[ticker]["marketid"],
                                   month=month,
                                   year=year)
     return url
@@ -224,6 +223,115 @@ def get_current_day_data() -> list:
     return final_list
 
 
+def create_temp_file(current_time, current_date) -> str:
+    if current_time > "18:00":
+        LOG_BOOK.append("creating temp file starting time: OK")
+
+        if os.path.isfile(TEMP_FILE):
+            # kontrola data souboru temp_file
+            print("Last modified: %s" % time.ctime(os.path.getmtime(TEMP_FILE)))
+            print("Created: %s" % time.ctime(os.path.getctime(TEMP_FILE)))
+
+            t = datetime.datetime.fromtimestamp(os.path.getctime(TEMP_FILE))
+            temp_file_creation_date = t.strftime("%d.%m.%Y")
+            t = datetime.datetime.fromtimestamp(os.path.getmtime(TEMP_FILE))
+            temp_file_modify_date = t.strftime("%d.%m.%Y")
+            print("modify:", temp_file_modify_date)
+            print("create:", temp_file_creation_date)
+
+            if temp_file_creation_date == current_date:
+                print("temp file is actual:", temp_file_creation_date)
+                LOG_BOOK.append(f"temp file is actual: {temp_file_creation_date}")
+            else:
+                print("temp file is out of date")
+                LOG_BOOK.append(f"temp file is out of date: {temp_file_creation_date}")
+                final_list = get_current_day_data()
+                save_current_day_data_to_csv(TEMP_FILE, final_list)
+        else:
+            print("creating temp file...")
+            LOG_BOOK.append(f"creating new temp file")
+            final_list = get_current_day_data()
+            save_current_day_data_to_csv(TEMP_FILE, final_list)
+
+    else:
+        LOG_BOOK.append("bad starting time (current_time < 18:00), temp file not created")
+    time.sleep(1)
+    return temp_file_modify_date
+
+
+def get_data_from_temp_file(ticker) -> str:
+    with open(TEMP_FILE, "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            data = line.split(",")
+            if data[0] == ticker:
+                return data
+
+
+def create_2m_data_file(ticker: str):
+    # (2 months) načtení dat z webu (aktuální měsíc + předchozí)
+    today = datetime.datetime.now()
+    actual_month = int(today.strftime("%m"))
+    actual_year = int(today.strftime("%Y"))
+    previous_month = int((today - datetime.timedelta(days=30)).strftime("%m"))
+    previous_year = int((today - datetime.timedelta(days=30)).strftime("%Y"))
+
+    url = create_url(ticker, actual_month, actual_year)
+    LOG_BOOK.append(f"actual_month url: {url}")
+    soup = get_soup(url)
+    LOG_BOOK.append(f"get_soup from actual_month url: OK")
+    actual_month_data_table = get_data(soup)
+    LOG_BOOK.append("actual_month_data_table: OK")
+
+    url = create_url(ticker, previous_month, previous_year)
+    LOG_BOOK.append(f"previous_month url: {url}")
+    time.sleep(2)
+    soup = get_soup(url)
+    LOG_BOOK.append(f"get_soup from actual_month url: OK")
+    previous_month_data_table = get_data(soup)
+    LOG_BOOK.append("previous_month_data_table: OK")
+
+    # sestavení finální datové struktury (list) od nejstaršího data (opačně než na webu)
+    # header = ["date", "close", "volume", "open", "high", "low"]
+    # previous_month_data_table.update(actual_month_data_table)
+    # final_data_table = dict(sorted(previous_month_data_table.items()))
+    previous_month_data_table = dict(sorted(previous_month_data_table.items()))
+    actual_month_data_table = dict(sorted(actual_month_data_table.items()))
+
+    final_list = []
+    for key in previous_month_data_table:
+        line_list = []
+        line_list.append(str(key))
+        line_list.append(previous_month_data_table[key]["close"])
+        line_list.append(previous_month_data_table[key]["volume"])
+        line_list.append(previous_month_data_table[key]["open"])
+        line_list.append(previous_month_data_table[key]["high"])
+        line_list.append(previous_month_data_table[key]["low"])
+        final_list.append(line_list)
+
+    for key in actual_month_data_table:
+        line_list = []
+        line_list.append(str(key))
+        line_list.append(actual_month_data_table[key]["close"])
+        line_list.append(actual_month_data_table[key]["volume"])
+        line_list.append(actual_month_data_table[key]["open"])
+        line_list.append(actual_month_data_table[key]["high"])
+        line_list.append(actual_month_data_table[key]["low"])
+        final_list.append(line_list)
+
+    # uložení dat do csv souboru
+    save_data_to_csv(f"data/{ticker}.csv", final_list)
+    LOG_BOOK.append(f"data/{ticker} file saved: OK")
+
+
+def get_last_row_date(ticker) -> str:
+    with open(f"data/{ticker}.csv", "r") as f:
+        last_line = f.readlines()[-1]
+        last_date_in_file = last_line[:10]
+        LOG_BOOK.append(f"last row date in file data/{ticker}.csv: {last_date_in_file}")
+    return last_date_in_file
+
+
 def main():
     actual_month_data_table = dict()
     previous_month_data_table = dict()
@@ -231,7 +339,7 @@ def main():
     final_data_table = dict()
 
     today = datetime.datetime.now()
-    today_date = today.strftime("%d.%m.%Y")
+    current_date = today.strftime("%d.%m.%Y")
     current_time = today.strftime("%H:%M:%S")
     yesterday_date = (today - datetime.timedelta(days=1)).strftime("%d.%m.%Y")
     actual_month = int(today.strftime("%m"))
@@ -241,26 +349,28 @@ def main():
     # print(previous_month, previous_year)
     # print(actual_month, actual_year)
 
-    LOG_BOOK.append(f"spuštění dne: {today_date}, v čase: {current_time}")
+    LOG_BOOK.append(f"spuštění dne: {current_date}, v čase: {current_time}")
     try:
         # ToDo: parametry pro shell
         # -all DATE -> uloží kompletní historii od data DATE do nového souboru, pokud soubor existuje
         # přidá do jména (x) číslo kopie
 
-        # -last -> do souboru csv přidá na konec záznam z posledního obch. dne (kontrola data, jestli tam už není)
-        # pokud soubor neexistuje, spustí nejprve verzi -2m
-
-        # -actualize -> projde csv soubor a dopln9 chzbějící dny
+        # -a TICKER (actualize) -> projde csv soubor a doplní chybějící poslední den z temp_file
+        # kontrola data vytvoření souboru ticker.csv
+        # pokud je starší než 2 měsíce, vytvoří se nový -2m + -last
+        # původní soubor se přejmenuje na ticker.bat
+        # vezme poslední datum z csv souboru
+        # pokud je menší než v temp_file, tak doplní do souboru ticker.csv datum z temp_file
+        # LOG
 
         # -2m -> vytvoří csv z posledních 2 měsíců od aktuálního data
 
-
         # parameter = sys.argv[1].lower()
         # ticker = sys.argv[2].upper()
-        ticker = "BAAAVAST"
-        parameter = "-all"
+        ticker = "BAAPEN"
+        parameter_01 = "-2m"
         date_from = "01.01.2020"
-        LOG_BOOK.append(f"parameter: {parameter}, ticker: {ticker}")
+        LOG_BOOK.append(f"parameter: {parameter_01}, ticker: {ticker}")
 
         """
         # načtení dat z csv souboru
@@ -271,87 +381,36 @@ def main():
         else:
             LOG_BOOK.append(f"file data/{ticker}.csv doesn't exists.")
         """
+        if parameter_01 == "-a":
+            # kontrola aktuálnosti souboru temp.csv
+            temp_file_data_date = create_temp_file(current_time, current_date)
+            data_file = f"data/{ticker}.csv"
+            last_date_in_csv_file = get_last_row_date(ticker)
 
-        if parameter == "-l":
-            # ToDo: kontrola data vytvoření / datum poslední změny
-            # (last) stáhne data pouze z aktuálního dne, až po uzavření burzy
-            # vytvoří temp file s daty z aktuálního dne
-            temp_file = "data/temp.csv"
+            if last_date_in_csv_file < temp_file_data_date:
+                new_line_list = get_data_from_temp_file(ticker)
+                new_line = temp_file_data_date
+                for n, value in enumerate(new_line_list):
+                    if 0 < n < 6:
+                        new_line += f",{value}"
 
-            if current_time > "18:00":
-                LOG_BOOK.append("starting time: OK")
-
-                if os.path.isfile(temp_file):
-                    # kontrola data souboru temp_file
-                    t = datetime.datetime.fromtimestamp(os.path.getctime(temp_file))
-                    temp_file_creation_date = t.strftime("%d.%m.%Y")
-                    if temp_file_creation_date == today_date:
-                        print("temp file is actual:", temp_file_creation_date)
-                        LOG_BOOK.append(f"temp file is actual: {temp_file_creation_date}")
-                    else:
-                        print("temp file is out of date")
-                        LOG_BOOK.append(f"temp file is out of date: {temp_file_creation_date}")
-                        final_list = get_current_day_data()
-                        save_current_day_data_to_csv(temp_file, final_list)
-                else:
-                    print("creating temp file...")
-                    final_list = get_current_day_data()
-                    save_current_day_data_to_csv(temp_file, final_list)
-
+                with open(f"data/{ticker}.csv", 'a') as f:
+                    f.write(f'{new_line}\n')
+                    LOG_BOOK.append(f"added new line to data/{ticker}.csv file")
             else:
-                LOG_BOOK.append("bad starting time (current_time < 18:00), temp file not created")
+                LOG_BOOK.append(f"last line in data/{ticker}.csv file is actual")
 
-        elif parameter == "-2m":
-            # (2 months) načtení dat z webu (aktuální měsíc + předchozí)
-            url = create_url(ticker, actual_month, actual_year)
-            LOG_BOOK.append(f"actual_month url: {url}")
-            soup = get_soup(url)
-            LOG_BOOK.append(f"get_soup from actual_month url: OK")
-            actual_month_data_table = get_data(soup)
-            LOG_BOOK.append("actual_month_data_table: OK")
+        if parameter_01 == "-t":
+            # vytvoří soubor temp.csv s daty z aktuálního dne, až po uzavření burzy
+            create_temp_file(current_time, current_date)
 
-            # if len(actual_month_data_table) < 14:
-            # načtení dat z webu (předchozí měsíc)
-            url = create_url(ticker, previous_month, previous_year)
-            LOG_BOOK.append(f"previous_month url: {url}")
-            time.sleep(2)
-            soup = get_soup(url)
-            LOG_BOOK.append(f"get_soup from actual_month url: OK")
-            previous_month_data_table = get_data(soup)
-            LOG_BOOK.append("previous_month_data_table: OK")
-            # print("počet zápisů:", len(previous_month_data_table))
+        elif parameter_01 == "-2m":
+            create_2m_data_file(ticker)
 
-            # sestavení finální datové struktury (list) od nejstaršího data (opačně než na webu)
-            # header = ["date", "close", "volume", "open", "high", "low"]
-            # previous_month_data_table.update(actual_month_data_table)
-            final_data_table = dict(sorted(previous_month_data_table.items()))
-            previous_month_data_table = dict(sorted(previous_month_data_table.items()))
-            actual_month_data_table = dict(sorted(actual_month_data_table.items()))
-
-            final_list = []
-            for key in previous_month_data_table:
-                line_list = []
-                line_list.append(str(key))
-                line_list.append(previous_month_data_table[key]["close"])
-                line_list.append(previous_month_data_table[key]["volume"])
-                line_list.append(previous_month_data_table[key]["open"])
-                line_list.append(previous_month_data_table[key]["high"])
-                line_list.append(previous_month_data_table[key]["low"])
-                final_list.append(line_list)
-
-            for key in actual_month_data_table:
-                line_list = []
-                line_list.append(str(key))
-                line_list.append(actual_month_data_table[key]["close"])
-                line_list.append(actual_month_data_table[key]["volume"])
-                line_list.append(actual_month_data_table[key]["open"])
-                line_list.append(actual_month_data_table[key]["high"])
-                line_list.append(actual_month_data_table[key]["low"])
-                final_list.append(line_list)
-
-            # uložení dat do csv souboru
-            save_data_to_csv(f"data/{ticker}.csv", final_list)
-            LOG_BOOK.append(f"csv file saved: check")
+        elif parameter_01 == "-all2m":
+            for ticker in TICKERS:
+                create_2m_data_file(ticker)
+                time.sleep(2)
 
     except Exception as e:
         LOG_BOOK.append(f"chyba: {e}")

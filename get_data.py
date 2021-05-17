@@ -224,13 +224,14 @@ def get_current_day_data() -> list:
 
 
 def create_temp_file(current_time, current_date) -> str:
+    temp_file_modify_date = 0
     if current_time > "18:00":
         LOG_BOOK.append("creating temp file starting time: OK")
 
         if os.path.isfile(TEMP_FILE):
             # kontrola data souboru temp_file
-            print("Last modified: %s" % time.ctime(os.path.getmtime(TEMP_FILE)))
-            print("Created: %s" % time.ctime(os.path.getctime(TEMP_FILE)))
+            # print("Last modified: %s" % time.ctime(os.path.getmtime(TEMP_FILE)))
+            # print("Created: %s" % time.ctime(os.path.getctime(TEMP_FILE)))
 
             t = datetime.datetime.fromtimestamp(os.path.getctime(TEMP_FILE))
             temp_file_creation_date = t.strftime("%d.%m.%Y")
@@ -239,22 +240,27 @@ def create_temp_file(current_time, current_date) -> str:
             print("modify:", temp_file_modify_date)
             print("create:", temp_file_creation_date)
 
-            if temp_file_creation_date == current_date:
-                print("temp file is actual:", temp_file_creation_date)
-                LOG_BOOK.append(f"temp file is actual: {temp_file_creation_date}")
+            if temp_file_modify_date == current_date:
+                print("temp file is actual:", temp_file_modify_date)
+                LOG_BOOK.append(f"temp file is actual: {temp_file_modify_date}")
             else:
                 print("temp file is out of date")
-                LOG_BOOK.append(f"temp file is out of date: {temp_file_creation_date}")
+                LOG_BOOK.append(f"temp file is out of date: {temp_file_modify_date}")
                 final_list = get_current_day_data()
                 save_current_day_data_to_csv(TEMP_FILE, final_list)
+                t = datetime.datetime.fromtimestamp(os.path.getmtime(TEMP_FILE))
+                temp_file_modify_date = t.strftime("%d.%m.%Y")
         else:
             print("creating temp file...")
             LOG_BOOK.append(f"creating new temp file")
             final_list = get_current_day_data()
             save_current_day_data_to_csv(TEMP_FILE, final_list)
+            t = datetime.datetime.fromtimestamp(os.path.getmtime(TEMP_FILE))
+            temp_file_modify_date = t.strftime("%d.%m.%Y")
 
     else:
         LOG_BOOK.append("bad starting time (current_time < 18:00), temp file not created")
+
     time.sleep(1)
     return temp_file_modify_date
 
@@ -332,6 +338,18 @@ def get_last_row_date(ticker) -> str:
     return last_date_in_file
 
 
+def actualize_ticker_csv_file(ticker: str, temp_file_data_date: str):
+    new_line_list = get_data_from_temp_file(ticker)
+    new_line = temp_file_data_date
+    for n, value in enumerate(new_line_list):
+        if 0 < n < 6:
+            new_line += f",{value}"
+
+    with open(f"data/{ticker}.csv", 'a') as f:
+        f.write(f'{new_line}\n')
+        LOG_BOOK.append(f"added new line to data/{ticker}.csv file")
+
+
 def main():
     actual_month_data_table = dict()
     previous_month_data_table = dict()
@@ -367,8 +385,8 @@ def main():
 
         # parameter = sys.argv[1].lower()
         # ticker = sys.argv[2].upper()
-        ticker = "BAAPEN"
-        parameter_01 = "-2m"
+        ticker = "BAAAVAST"
+        parameter_01 = "-alla"
         date_from = "01.01.2020"
         LOG_BOOK.append(f"parameter: {parameter_01}, ticker: {ticker}")
 
@@ -382,32 +400,45 @@ def main():
             LOG_BOOK.append(f"file data/{ticker}.csv doesn't exists.")
         """
         if parameter_01 == "-a":
+            # aktualizuje 1 soubor ticker.csv podle zadaného tickeru
             # kontrola aktuálnosti souboru temp.csv
-            temp_file_data_date = create_temp_file(current_time, current_date)
-            data_file = f"data/{ticker}.csv"
+            temp_file_data_date = str(create_temp_file(current_time, current_date))
+            # data_file = f"data/{ticker}.csv"
             last_date_in_csv_file = get_last_row_date(ticker)
 
             if last_date_in_csv_file < temp_file_data_date:
-                new_line_list = get_data_from_temp_file(ticker)
-                new_line = temp_file_data_date
-                for n, value in enumerate(new_line_list):
-                    if 0 < n < 6:
-                        new_line += f",{value}"
-
-                with open(f"data/{ticker}.csv", 'a') as f:
-                    f.write(f'{new_line}\n')
-                    LOG_BOOK.append(f"added new line to data/{ticker}.csv file")
+                actualize_ticker_csv_file(ticker, temp_file_data_date)
             else:
-                LOG_BOOK.append(f"last line in data/{ticker}.csv file is actual")
+                if temp_file_data_date != "0":
+                    LOG_BOOK.append(f"last line in data/{ticker}.csv file is actual")
+                else:
+                    LOG_BOOK.append(f"program ended")
 
-        if parameter_01 == "-t":
+        elif parameter_01 == "-alla":
+            # aktualizuje všechny soubory ticker.csv z TICKERS listu
+            # kontrola aktuálnosti souboru temp.csv
+            temp_file_data_date = str(create_temp_file(current_time, current_date))
+
+            for ticker in TICKERS:
+                last_date_in_csv_file = get_last_row_date(ticker)
+                if last_date_in_csv_file < temp_file_data_date:
+                    actualize_ticker_csv_file(ticker, temp_file_data_date)
+                else:
+                    if temp_file_data_date != "0":
+                        LOG_BOOK.append(f"last line in data/{ticker}.csv file is actual")
+                    else:
+                        LOG_BOOK.append(f"file data/{ticker}.csv not actualized")
+
+        elif parameter_01 == "-t":
             # vytvoří soubor temp.csv s daty z aktuálního dne, až po uzavření burzy
             create_temp_file(current_time, current_date)
 
         elif parameter_01 == "-2m":
+            # vytvoří soubor ticker.csv, data za 2 měsíce, pouze pro zadaný ticker
             create_2m_data_file(ticker)
 
         elif parameter_01 == "-all2m":
+            # vytvoří soubor ticker.csv, data za 2 měsíce, pro všechny tickery z TICKERS
             for ticker in TICKERS:
                 create_2m_data_file(ticker)
                 time.sleep(2)

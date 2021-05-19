@@ -1,20 +1,10 @@
 from finta import TA
 import pandas as pd
+import matplotlib.pyplot as plt
 
-text = "192 995 ks116\xa0211\xa0481,50\xa0Kč".replace("\xa0", "").replace(" ", "")
-minmax = "592,00\xa0Kč605,50\xa0Kč"
-new = text.split("ks")
-print(new)
-exit()
-# odkazy:
-# historická data ČEZ
-# https://www.pse.cz/detail/CZ0005112300?tab=detail-history
-#
-# https://www.penize.cz/burza-cennych-papiru-praha/6143-cez
-#
+
 # finTA module web
 # https://pypi.org/project/finta/
-
 
 
 # Prepare data to use with finta:
@@ -34,13 +24,10 @@ exit()
 # TA.SMA(ohlc, 42)
 
 # Load the .csv:
-# ohlc = pd.read_csv("HistoricalData.csv", index_col="Date", parse_dates=True)
-ohlc = pd.read_csv("data/BAACEZ.csv", index_col="date", parse_dates=True)
+ticker = "BAACEZ"
+ohlc = pd.read_csv(f"data/{ticker}.csv", index_col="date", parse_dates=True)
 
 # Now we need to make this ohlc comply to standards.
-# Column names:
-# ohlc.columns
-
 # We need lowercase column names:
 ohlc.columns = ['close', 'volume', 'open', 'high', 'low']
 
@@ -60,11 +47,55 @@ ohlc.columns = ['close', 'volume', 'open', 'high', 'low']
 # ohlc["open"] = ohlc["open"].apply(split)
 
 
+# plt.title(f"%K STOCHASTIC OSCILATOR - {ticker}")
+# plt.xlabel("date")
+# plt.ylabel("%")
+# lower line
+# plt.plot([2021, 2022], [20, 20], "r-")
+# plt.plot([2021, 2022], [80, 80], "r-")
+# plt.plot([1,2,3,4,5],[10,20,30,40,50])
+# plt.plot(TA.STOCH(ohlc).tail(8), "b-")
+# plt.show()
+
+
 # TA
 # Jump right into it to see how easy it is.
+low_lewel = 20
+mid_level = 50
+high_level = 80
+stoch_k_result = "-"
+stoch_d_result = "-"
+
+stoch_k = TA.STOCH(ohlc).tail(2)
+for n, row in enumerate(stoch_k):
+    if n == 0:
+        stoch_k_yesterday_value = row
+    elif n == 1:
+        stoch_k_today_value = row
+
+stoch_d = TA.STOCHD(ohlc).tail(2)
+for n, row in enumerate(stoch_d):
+    if n == 0:
+        stoch_d_yesterday_value = row
+    elif n == 1:
+        stoch_d_today_value = row
+
+if stoch_k_today_value > stoch_k_yesterday_value:
+    stoch_k_result = "grow up"
+
+print(f"K_yesterday: {stoch_k_yesterday_value}, K_today: {stoch_k_today_value}")
+print(stoch_k_result)
+print(f"D_yesterday: {stoch_d_yesterday_value}, D_today: {stoch_d_today_value}")
+print(stoch_d_result)
+exit()
+
+print(TA.STOCH(ohlc).tail(8))
+print("-" * 40)
+print(TA.STOCHD(ohlc).tail(8))
+print("end of the line")
+exit()
 
 print(TA.RSI(ohlc).tail(4))
-
 # Date
 # 2014-12-26    55.099394
 # 2014-12-24    43.666451

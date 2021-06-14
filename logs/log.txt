@@ -562,3 +562,401 @@ previous_month_data_table: OK
 Soubor data/BAAPEN.csv byl vytvořen.
 data/BAAPEN file saved: OK
 --------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 17:00:21
+parameter: -a, ticker: BAAERBAG
+bad starting time (current_time < 18:00), temp file not created
+chyba: local variable 'temp_file_modify_date' referenced before assignment
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 17:03:51
+parameter: -a, ticker: BAAERBAG
+bad starting time (current_time < 18:00), temp file not created
+last row date in file data/BAAERBAG.csv: 14.05.2021
+chyba: '<' not supported between instances of 'str' and 'int'
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 17:04:58
+parameter: -a, ticker: BAAERBAG
+bad starting time (current_time < 18:00), temp file not created
+last row date in file data/BAAERBAG.csv: 14.05.2021
+last line in data/BAAERBAG.csv file is actual
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 17:07:35
+parameter: -a, ticker: BAAERBAG
+bad starting time (current_time < 18:00), temp file not created
+last row date in file data/BAAERBAG.csv: 14.05.2021
+program ended
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 20:56:35
+parameter: -a, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 16.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 14.05.2021
+added new line to data/BAAAVAST.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 20:59:24
+parameter: -a, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 16.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 
+
+added new line to data/BAAAVAST.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 21:05:29
+parameter: -a, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 16.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 14.05.2021
+added new line to data/BAAAVAST.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 21:11:57
+parameter: -a, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 17.05.2021
+last row date in file data/BAAAVAST.csv: 14.05.2021
+added new line to data/BAAAVAST.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 21:12:39
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 17.05.2021
+last row date in file data/BAAAVAST.csv: 17.05.2021
+last line in data/BAAAVAST.csv file is actual
+last line in data/BAACEZ.csv file is actual
+last line in data/BAACZGCE.csv file is actual
+last line in data/BAAERBAG.csv file is actual
+last line in data/BAAGECBA.csv file is actual
+last line in data/BAAKOMB.csv file is actual
+last line in data/BAASTOCK.csv file is actual
+last line in data/BAATABAK.csv file is actual
+last line in data/BAATELEC.csv file is actual
+last line in data/BAAVIG.csv file is actual
+last line in data/BABKOFOL.csv file is actual
+last line in data/BAAPEN.csv file is actual
+--------------------------------------------------------------------------------
+spuštění dne: 17.05.2021, v čase: 21:14:38
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is actual: 17.05.2021
+last row date in file data/BAAAVAST.csv: 17.05.2021
+last line in data/BAAAVAST.csv file is actual
+last row date in file data/BAACEZ.csv: 14.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 14.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 14.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 14.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 14.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 14.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 14.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 14.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 14.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 14.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 14.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 18.05.2021, v čase: 20:35:12
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 17.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 17.05.2021
+added new line to data/BAAAVAST.csv file
+last row date in file data/BAACEZ.csv: 17.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 17.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 17.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 17.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 17.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 17.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 17.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 17.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 17.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 17.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 17.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 19.05.2021, v čase: 10:14:49
+parameter: -alla, ticker: BAAAVAST
+bad starting time (current_time < 18:00), temp file not created
+last row date in file data/BAAAVAST.csv: 18.05.2021
+file data/BAAAVAST.csv not actualized
+last row date in file data/BAACEZ.csv: 18.05.2021
+file data/BAACEZ.csv not actualized
+last row date in file data/BAACZGCE.csv: 18.05.2021
+file data/BAACZGCE.csv not actualized
+last row date in file data/BAAERBAG.csv: 18.05.2021
+file data/BAAERBAG.csv not actualized
+last row date in file data/BAAGECBA.csv: 18.05.2021
+file data/BAAGECBA.csv not actualized
+last row date in file data/BAAKOMB.csv: 18.05.2021
+file data/BAAKOMB.csv not actualized
+last row date in file data/BAASTOCK.csv: 18.05.2021
+file data/BAASTOCK.csv not actualized
+last row date in file data/BAATABAK.csv: 18.05.2021
+file data/BAATABAK.csv not actualized
+last row date in file data/BAATELEC.csv: 18.05.2021
+file data/BAATELEC.csv not actualized
+last row date in file data/BAAVIG.csv: 18.05.2021
+file data/BAAVIG.csv not actualized
+last row date in file data/BABKOFOL.csv: 18.05.2021
+file data/BABKOFOL.csv not actualized
+last row date in file data/BAAPEN.csv: 18.05.2021
+file data/BAAPEN.csv not actualized
+--------------------------------------------------------------------------------
+spuštění dne: 19.05.2021, v čase: 18:53:21
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 18.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 18.05.2021
+added new line to data/BAAAVAST.csv file
+last row date in file data/BAACEZ.csv: 18.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 18.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 18.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 18.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 18.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 18.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 18.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 18.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 18.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 18.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 18.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 20.05.2021, v čase: 19:14:13
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 19.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 19.05.2021
+added new line to data/BAAAVAST.csv file
+last row date in file data/BAACEZ.csv: 19.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 19.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 19.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 19.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 19.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 19.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 19.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 19.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 19.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 19.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 19.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 21.05.2021, v čase: 20:06:09
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 20.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 20.05.2021
+added new line to data/BAAAVAST.csv file
+last row date in file data/BAACEZ.csv: 20.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 20.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 20.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 20.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 20.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 20.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 20.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 20.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 20.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 20.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 20.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 24.05.2021, v čase: 20:30:32
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 21.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 21.05.2021
+added new line to data/BAAAVAST.csv file
+last row date in file data/BAACEZ.csv: 21.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 21.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 21.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 21.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 21.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 21.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 21.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 21.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 21.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 21.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 21.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 26.05.2021, v čase: 09:40:32
+parameter: -alla, ticker: BAAAVAST
+bad starting time (current_time < 18:00), temp file not created
+last row date in file data/BAAAVAST.csv: 24.05.2021
+file data/BAAAVAST.csv not actualized
+last row date in file data/BAACEZ.csv: 24.05.2021
+file data/BAACEZ.csv not actualized
+last row date in file data/BAACZGCE.csv: 24.05.2021
+file data/BAACZGCE.csv not actualized
+last row date in file data/BAAERBAG.csv: 24.05.2021
+file data/BAAERBAG.csv not actualized
+last row date in file data/BAAGECBA.csv: 24.05.2021
+file data/BAAGECBA.csv not actualized
+last row date in file data/BAAKOMB.csv: 24.05.2021
+file data/BAAKOMB.csv not actualized
+last row date in file data/BAASTOCK.csv: 24.05.2021
+file data/BAASTOCK.csv not actualized
+last row date in file data/BAATABAK.csv: 24.05.2021
+file data/BAATABAK.csv not actualized
+last row date in file data/BAATELEC.csv: 24.05.2021
+file data/BAATELEC.csv not actualized
+last row date in file data/BAAVIG.csv: 24.05.2021
+file data/BAAVIG.csv not actualized
+last row date in file data/BABKOFOL.csv: 24.05.2021
+file data/BABKOFOL.csv not actualized
+last row date in file data/BAAPEN.csv: 24.05.2021
+file data/BAAPEN.csv not actualized
+--------------------------------------------------------------------------------
+spuštění dne: 26.05.2021, v čase: 19:55:55
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 24.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 24.05.2021
+added new line to data/BAAAVAST.csv file
+last row date in file data/BAACEZ.csv: 24.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 24.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 24.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 24.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 24.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 24.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 24.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 24.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 24.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 24.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 24.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------
+spuštění dne: 27.05.2021, v čase: 22:15:37
+parameter: -alla, ticker: BAAAVAST
+creating temp file starting time: OK
+temp file is out of date: 26.05.2021
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/prime-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/standard-market: OK
+get_soup from url https://www.pse.cz/udaje-o-trhu/akcie/free-market: OK
+Soubor data/temp.csv byl vytvořen.
+last row date in file data/BAAAVAST.csv: 26.05.2021
+added new line to data/BAAAVAST.csv file
+last row date in file data/BAACEZ.csv: 26.05.2021
+added new line to data/BAACEZ.csv file
+last row date in file data/BAACZGCE.csv: 26.05.2021
+added new line to data/BAACZGCE.csv file
+last row date in file data/BAAERBAG.csv: 26.05.2021
+added new line to data/BAAERBAG.csv file
+last row date in file data/BAAGECBA.csv: 26.05.2021
+added new line to data/BAAGECBA.csv file
+last row date in file data/BAAKOMB.csv: 26.05.2021
+added new line to data/BAAKOMB.csv file
+last row date in file data/BAASTOCK.csv: 26.05.2021
+added new line to data/BAASTOCK.csv file
+last row date in file data/BAATABAK.csv: 26.05.2021
+added new line to data/BAATABAK.csv file
+last row date in file data/BAATELEC.csv: 26.05.2021
+added new line to data/BAATELEC.csv file
+last row date in file data/BAAVIG.csv: 26.05.2021
+added new line to data/BAAVIG.csv file
+last row date in file data/BABKOFOL.csv: 26.05.2021
+added new line to data/BABKOFOL.csv file
+last row date in file data/BAAPEN.csv: 26.05.2021
+added new line to data/BAAPEN.csv file
+--------------------------------------------------------------------------------

@@ -66,6 +66,7 @@ high_level = 80
 stoch_k_result = "-"
 stoch_d_result = "-"
 
+print(ticker, "STOCHASTIC")
 stoch_k = TA.STOCH(ohlc).tail(2)
 for n, row in enumerate(stoch_k):
     if n == 0:
@@ -87,6 +88,8 @@ print(f"K_yesterday: {stoch_k_yesterday_value}, K_today: {stoch_k_today_value}")
 print(stoch_k_result)
 print(f"D_yesterday: {stoch_d_yesterday_value}, D_today: {stoch_d_today_value}")
 print(stoch_d_result)
+
+print(ticker, "MA")
 exit()
 
 print(TA.STOCH(ohlc).tail(8))
